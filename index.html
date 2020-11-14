@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Dublo-BLE-Trains 🚂</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha256-+N4/V/SbAFiW1MPBCXnfnP9QSN3+Keu+NlB+0ev/YKQ=" crossorigin="anonymous" />
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+		integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+		integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
+	</script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+		integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
+	</script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+	</script>
+	<script src="train.js"></script>
+	<link rel="shortcut icon" href="favicon.ico" /> 
+</head>
+<body onload="detectBleApi();">
+	<div class="jumbotron text-center">
+		<h1>Duplo BLE Trains <i class="fas fa-train"></i></h1>
+		<p>Connect to your BLE Duplo Train and control it.</p>
+	</div>
+	<div class="container">
+		<div class="card-deck">
+			<div class="row">
+				<div class="col-sm-4">
+					<div class="card">
+						<div class="card-header">Status</div>
+						<div class="card-body">
+							<div class="form-group">
+								<label for="ble-api-status">Api Status:</label>
+								<span class="badge badge-info" id="ble-api-status" class="">Not detected! Try another browser like chrome or opera
+									or <a
+										href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Bluetooth_API">Check
+										BLE Api implementation</a></div>
+							</span>
+							<div class="form-group">
+								<label for="train-status">Train Status:</label>
+								<span id="train-status" class="badge badge-info">Disconnected</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-4">
+					<div class="card">
+						<div class="card-header">Connection</div>
+						<div class="card-body">
+							<div class="btn-group  btn-group-lg row">
+								<button id="connect" class="btn btn-success btn-lg col-6" onclick="go()"
+									disabled data-toggle="tooltip" title="Connect"><i class="fas fa-link"></i></button>
+
+								<button id="disconnect" class="btn btn-danger btn-lg col-6" onclick="shutdown();"
+									disabled data-toggle="tooltip" title="Disconnect"><i class="fas fa-ban" aria-hidden="true"></i>
+</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-4">
+					<div class="card">
+						<div class="card-header">Commands</div>
+						<div class="card-body">
+						    <h5 class="card-title">Speed</h5>
+							<div class="btn-group btn-group-lg row">
+								<input type="number" id="speed" name="speed" class="commands col-3" value="100" step="2" min="-100" max="100" />
+								<button id="go" class="commands col-3 btn btn-success btn-lg" onclick="drive($('#speed').val());"
+									disabled data-toggle="tooltip" title="Go!"><i class="fas fa-play"></i></button>
+								<button id="stop" class="commands col-3 btn btn-danger btn-lg" onclick="drive(0);"
+									disabled data-toggle="tooltip" title="Stop"><i class="fas fa-stop"></i></button>
+									<button id="stop" class="commands col-3 btn btn-warning btn-lg" onclick="reverse();"
+									disabled data-toggle="tooltip" title="Revert"><i class="fas fa-sync-alt"></i></button>
+							</div>
+							<h5 class="card-title">Commands&nbsp;<span class="badge badge-pill badge-danger">Beta</span></h5>
+							<div class="btn-group btn-group-lg row">
+								<button id="beep" class="commands col-4 btn btn-warning btn-lg" onclick="beep();"
+									disabled data-toggle="tooltip" title="Beep"><i class="fas fa-music"></i></button>
+								<button id="lightOn" class="commands col-4 btn btn-success btn-lg" onclick="light(true);"
+									disabled data-toggle="tooltip" title="Light On"><i class="fas fa-lightbulb"></i></button>
+								<button id="lightOff" class="commands col-4 btn btn-danger btn-lg" onclick="light(false);"
+									disabled data-toggle="tooltip" title="Light Off"><i class="far fa-lightbulb"></i></button>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<footer class="jumbotron text-center" style="margin-bottom:0">
+		<p>Based on project <a href="https://github.com/jszczypk/duplo-ble-trains">jszczypk/duplo-ble-trains at
+				github</a> Thanks!</p>
+	</footer>
+</body>
+</html>
