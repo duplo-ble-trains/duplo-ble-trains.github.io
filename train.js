@@ -57,7 +57,7 @@ function reverse() {
 
 function shutdown() {
   var data = Int8Array.of(0x04, 0x00, 0x02, 0x01);
-  characteristic.writeValue(data);
+  window.characteristic.writeValue(data);
 }
 
 function drive(speed) {
@@ -92,7 +92,7 @@ function write(data) {
   var message = new Int8Array(2 + data.length);
   message[0] = message.length;
   message.set(data, 2);
-  characteristic.writeValue(message);
+  window.characteristic.writeValue(message);
 }
 
 // train's response to invalid command: [5, 0, 5, -127, 5] = size, zero (protocol or high byte of message size), message type = error, probably id of command sent to train, some error code?
